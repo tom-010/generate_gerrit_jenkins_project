@@ -32,5 +32,6 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     python_requires='>=3',
+    package_data={'': ['jobs/*']},
     include_package_data=True,
 )

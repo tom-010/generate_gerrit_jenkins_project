@@ -4,6 +4,7 @@ import argparse
 import subprocess
 from jenkins import Jenkins, JenkinsException
 from getpass import getpass
+import pkg_resources
 
 class Step:
 
@@ -186,9 +187,8 @@ class CreateJenkinsPipelines(Step):
 
 
     def _create_pipeline(self, project_name, pipeline_type, config):
-        with open(f'./jenkins/jobs/{pipeline_type}.config.xml', 'r') as file:
-            content = file.read()
-            content = content.replace('helloworld', project_name)
+        content = pkg_resources.resource_string('generate_gerrit_jenkins_project', f'jobs/{pipeline_type}.config.xml').decode()
+        content = content.replace('helloworld', project_name)
 
         try:
             self._get_server(config).create_job(project_name + '-' + pipeline_type, content)
