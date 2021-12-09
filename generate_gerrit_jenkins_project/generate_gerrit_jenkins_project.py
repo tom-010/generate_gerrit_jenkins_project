@@ -213,11 +213,11 @@ class Config:
 
     def __init__(self):
         self.parser = argparse.ArgumentParser()
-        self.parser.add_argument('--projectname', help='Name of the new project')
-        self.parser.add_argument('--domain', help='Top-Level-Domain (without review.)')
-        self.parser.add_argument('--template', help='A link to a GitHub-Repo, used as template')
-        self.parser.add_argument('--username', help='LDAP Username')
-        self.parser.add_argument('--password', help='LDAP Password (optional)')
+        self.parser.add_argument('--projectname', help='Name of the new project', required=True)
+        self.parser.add_argument('--domain', help='Top-Level-Domain (without review.)', required=True)
+        self.parser.add_argument('--template', help='A link to a GitHub-Repo, used as template', required=True)
+        self.parser.add_argument('--username', help='LDAP Username', required=True)
+        self.parser.add_argument('--password', help='LDAP Password (optional)', required=False)
         self.gerrit_port = 29418
 
     def load_args(self):

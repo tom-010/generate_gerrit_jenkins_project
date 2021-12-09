@@ -17,6 +17,9 @@ setup(
     install_requires=[
         'python-jenkins'
     ],
+    entry_points = {
+        'console_scripts': ['generate_gerrit_jenkins_project = generate_gerrit_jenkins_project:main'] 
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -30,6 +33,4 @@ setup(
     long_description_content_type="text/markdown",
     python_requires='>=3',
     include_package_data=True,
-    entry_points={
-    }
 )
