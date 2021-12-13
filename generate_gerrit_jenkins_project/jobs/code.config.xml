@@ -29,7 +29,7 @@
           <id>4c873f74-3522-4511-aa99-07fcc30f9e1e</id>
           <remote>http://review:8080/helloworld</remote>
           <insecureHttps>true</insecureHttps>
-          <credentialsId></credentialsId>
+          <credentialsId>723e869c-2d11-43ec-9d75-44b8588d677d</credentialsId>
           <traits>
             <jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait>
               <queryString></queryString>
