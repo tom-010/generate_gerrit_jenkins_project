@@ -15,7 +15,8 @@ setup(
     packages=['generate_gerrit_jenkins_project'], # find_packages(),
     license='Apache2',
     install_requires=[
-        'python-jenkins'
+        'python-jenkins',
+        'easy-exec'
     ],
     entry_points = {
         'console_scripts': ['generate_gerrit_jenkins_project = generate_gerrit_jenkins_project:main'] 

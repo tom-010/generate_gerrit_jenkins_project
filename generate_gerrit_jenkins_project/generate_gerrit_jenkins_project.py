@@ -5,6 +5,7 @@ import subprocess
 from jenkins import Jenkins, JenkinsException
 from getpass import getpass
 import pkg_resources
+from easy_exec import exec
 
 class Step:
 
@@ -196,9 +197,33 @@ class CreateJenkinsPipelines(Step):
             print(e)
             raise
 
+class TriggerTemplateInit(Step):
+    name = 'Trigger Template Init'
 
+    def can_skip(self, config):
+        return not os.path.isfile(f'./{config.project_name}/init_template.py')
 
+    def run(self, config):
+        stdout, stderr, has_error = exec(f'python3 init_template.py', cwd=f'./{config.project_name}')
+        if not has_error:
+            exec(f'rm init_template.py', cwd=f'./{config.project_name}')
+        return not has_error
 
+class SendInitialCommit(Step):
+    name = 'Send initial commit to gerrit'
+
+    def can_skip(self, config):
+        stdout, stderr, has_error = exec('git log', cwd=f'./{config.project_name}')
+        return not has_error # git log returns error if there are not commits. Skip=True if no error returned
+    
+    def run(self, config):
+        stdout, stderr, has_error1 = exec('git add .', cwd=f'./{config.project_name}')
+        print(stdout, stderr)
+        stdout, stderr, has_error2 = exec('git commit -aminit', cwd=f'./{config.project_name}')
+        print(stdout, stderr)
+        stdout, stderr, has_error3 = exec('git push origin master', cwd=f'./{config.project_name}')
+        print(stdout, stderr)
+        return True
 
 ##########
 
@@ -242,5 +267,7 @@ def generate_gerrit_jenkins_project():
         CreateGerritProject(),
         ConfigureGerritGitHooks(),
         ConfigureGitPushToGerrit(),
-        CreateJenkinsPipelines()
+        CreateJenkinsPipelines(),
+        TriggerTemplateInit(),
+        SendInitialCommit()
     ])
